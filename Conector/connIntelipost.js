@@ -4,31 +4,47 @@ const produto = require("../Dados/dados.json");
 const app = express();
 
 function cotacaoProduto(produto){
-    var obj = JSON.stringify(produto);
+  var obj = JSON.stringify(produto);
 
-    var config = {
-        method: 'post',
-        url: 'http://144.22.132.158:3000/cotacaoProduto',
-        headers: { 
-          'Content-Type': 'application/json'
-        },
-        data : obj
-      };
-      axios(config)
-      .then(function (response) {
-          let result = JSON.stringify(response.data.data.content);
-        // console.log(JSON.stringify(response.data.obj.content.delivery_options.length));
-        // let optionFrete = result.delivery_options;
-        // let id = result.content.id;
-        // let client_id = result.content.client_id;
+  var config = {
+      method: 'post',
+      url: 'http://144.22.132.158:3000/cotacaoProduto',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : obj
+    };
+    axios(config)
+    .then(function (response) {
+        let result = JSON.stringify(response.data.data.content);
+      console.log(result);
+    })
+    .catch(function (error) {
+      console.log(error.response.data);
+    });
+}
 
-        // console.log(optionFrete, id, client_id);
-        // console.log(JSON.stringify(response.data.data.content))
-        console.log(result);
-      })
-      .catch(function (error) {
-        console.log(error.response.data);
-      });
+function statusOrder(){
+  var config = {
+      method: 'post',
+      url: 'http://144.22.132.158:3000/statusOrder',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data:{
+        "externalOrderNo": "teste",
+        "externalOrderStatus": "teste2",
+        "externalOrderText": "A caminho"
+        }
+    };
+    axios(config)
+    .then(function (response) {
+        let result = JSON.stringify(response.data);
+      console.log(result);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }
 
 function anyMarket(){
@@ -50,6 +66,7 @@ function anyMarket(){
 app.listen('3000', function (err) {
     console.log('rodou....')
     cotacaoProduto(produto);
+    // statusOrder()
     // anyMarket();
 })
 
